@@ -3,12 +3,14 @@ package game;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 class Game {
 
     private WebSocket ws = new WebSocket(this);
+    private BattleShip battleShip = new BattleShip();
     private String gameKey, playerKey;
     private Controller controller;
 
@@ -148,5 +150,9 @@ class Game {
     public void updateGameList(ObservableList gameList) {
         // to prevent thread error
         Platform.runLater(() -> this.controller.updateGamesList(gameList));
+    }
+
+    public void createStage(Stage stage) throws Exception {
+        battleShip.start(stage);
     }
 }

@@ -14,7 +14,6 @@ public class WebSocket {
     private Game game;
 
     public WebSocket(Game game) {
-
         this.game = game;
     }
 
@@ -25,7 +24,6 @@ public class WebSocket {
 
     @OnMessage
     public void onMessage(String message) {
-
         game.processMessage(message);
     }
 
@@ -51,6 +49,5 @@ public class WebSocket {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

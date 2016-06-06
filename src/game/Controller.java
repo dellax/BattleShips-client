@@ -51,16 +51,23 @@ public class Controller implements Initializable {
         assert textInput != null : "fx:id=\"textInput\" was not injected: check your FXML file 'sample.fxml'.";
         assert listView != null : "fx:id=\"listView\" was not injected: check your FXML file 'sample.fxml'.";
 
-        // game list
-
 
         versionButton.setOnAction(event -> {
             game.getVersion();
         });
+
         createGameButton.setOnAction(event -> {
+            // open windows with game
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            try {
+                game.createStage(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             game.createGame();
-            // TODO open window with game
         });
+
         joinGameButton.setOnAction(event -> {
             ObservableList<String> gameList = listView.getItems();
             // check if game exists
@@ -68,19 +75,15 @@ public class Controller implements Initializable {
                 System.out.println("No game selected");
                 return;
             }
-            // TODO open window with game
-            //
+            // open windows with game
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
-            Parent root = null;/* Exception */
             try {
-                root = FXMLLoader.load(getClass().getResource("game.fxml"));
-            } catch (IOException e) {
+                game.createStage(stage);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            game.joinGame(selectedGameId);
         });
 
         game.setController(this);
