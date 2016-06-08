@@ -102,6 +102,7 @@ class Game {
     private void gameCreatedHandler(Object messageObject) {
         JSONObject messageJSON = (JSONObject) messageObject;
         String gameKey = messageJSON.getString("gameKey");
+        this.gameKey = gameKey;
         Platform.runLater(() -> {
             this.battleShip.setStageTitle("BattleShips gameID " + gameKey);
         });
@@ -112,14 +113,27 @@ class Game {
      * @param gameKey Must be string
      */
     public void joinGame(String gameKey) {
-
+        this.gameKey = gameKey;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("gameKey", gameKey);
 
         sendMessage("joinGame", jsonObject);
         Platform.runLater(() -> {
             this.battleShip.setStageTitle("BattleShips gameID " + gameKey);
+            this.battleShip.setGame(this);
         });
+    }
+
+    public void addShip(int type, boolean vertical, int x, int y) {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("gameKey", this.gameKey);
+        jsonObject.put("type", type);
+        jsonObject.put("vertical", vertical);
+        jsonObject.put("x", x);
+        jsonObject.put("y", y);
+
+        sendMessage("addShip", jsonObject);
     }
 
     private void preparationStartedHandler(Object messageObject) {
@@ -178,5 +192,6 @@ class Game {
      */
     public void createStage(Stage stage) throws Exception {
         battleShip.start(stage);
+        battleShip.setGame(this);
     }
 }

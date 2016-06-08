@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Board extends Parent {
+    private Game game;
     private VBox rows = new VBox();
     private boolean enemy = false;
     public int ships = 5;
@@ -169,5 +170,9 @@ public class Board extends Parent {
 
             return false;
         }
+    }
+
+    void setGame(Game game) {
+        this.game = game;
     }
 }
