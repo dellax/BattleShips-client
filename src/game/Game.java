@@ -130,6 +130,13 @@ class Game {
         });
     }
 
+    /**
+     * Add ship on server
+     * @param type Integer
+     * @param vertical Boolean
+     * @param x Integer
+     * @param y Integer
+     */
     public void addShip(int type, boolean vertical, int x, int y) {
 
         JSONObject jsonObject = new JSONObject();
@@ -142,6 +149,9 @@ class Game {
         sendMessage("addShip", jsonObject);
     }
 
+    /**
+     * Set player ready on server
+     */
     public void setPlayerReady() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("gameKey", this.gameKey);
@@ -195,6 +205,11 @@ class Game {
         sendMessage("addShip", jsonObject);
     }
 
+    /**
+     * Send message with player shot coordinates to server
+     * @param x Integer
+     * @param y Integer
+     */
     public void playerShot(int x, int y) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("gameKey", gameKey);

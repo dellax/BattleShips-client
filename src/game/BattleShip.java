@@ -17,15 +17,12 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import game.Board.Cell;
-import javafx.stage.StageStyle;
 
 public class BattleShip {
 
@@ -157,7 +154,7 @@ public class BattleShip {
     }
 
     /**
-     * Set status of the game, displayed in blue box
+     * Set status of the game displayed in blue box
      * @param status String
      */
     public void setGameStatus(String status) {
@@ -165,9 +162,9 @@ public class BattleShip {
     }
 
     /**
-     * Show primary stage
+     * Show primary stage with game
      * @param primaryStage Stage
-     * @throws Exception
+     * @throws Exception Stage
      */
     public void start(Stage primaryStage) throws Exception {
         this.stage = primaryStage;
@@ -179,7 +176,7 @@ public class BattleShip {
     }
 
     /**
-     * Set title of the window
+     * Set title of the game window
      * @param title String
      */
     public void setStageTitle(String title) {
@@ -187,7 +184,7 @@ public class BattleShip {
     }
 
     /**
-     * Set game object
+     * Set game object so we can access websockets
      * @param game Game object
      */
     public void setGame(Game game) {
@@ -195,7 +192,7 @@ public class BattleShip {
     }
 
     /**
-     * Set game status and onTurn
+     * Set game status and which player is on turn
      * @param onTurn Boolean
      */
     public void setGameStarted(boolean onTurn) {
@@ -209,7 +206,7 @@ public class BattleShip {
     }
 
     /**
-     * Set onTurn and inform user in game status
+     * Set who is on turn and inform user trough game status
      * @param onTurn Boolean
      */
     void setOnTurn(boolean onTurn) {

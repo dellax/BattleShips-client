@@ -34,6 +34,13 @@ public class Board extends Parent {
         getChildren().add(rows);
     }
 
+    /**
+     * Place ship on given coordinates
+     * @param ship Ship object
+     * @param x Integer
+     * @param y Integer
+     * @return Boolean if ship was placed
+     */
     public boolean placeShip(Ship ship, int x, int y) {
         if (canPlaceShip(ship, x, y)) {
             int length = ship.type;
@@ -65,6 +72,12 @@ public class Board extends Parent {
         return false;
     }
 
+    /**
+     * Get clicked cell
+     * @param x Integer
+     * @param y Integer
+     * @return Cell object
+     */
     public Cell getCell(int x, int y) {
         return (Cell)((HBox)rows.getChildren().get(y)).getChildren().get(x);
     }
@@ -155,6 +168,10 @@ public class Board extends Parent {
             setStroke(Color.BLACK);
         }
 
+        /**
+         * Shot cell and fill with red color if ship was hit, otherwise fill with black color
+         * @return Boolean
+         */
         public boolean shoot() {
             wasShot = true;
             setFill(Color.BLACK);
@@ -172,6 +189,10 @@ public class Board extends Parent {
         }
     }
 
+    /**
+     * Set game object so we can access websockets
+     * @param game Object
+     */
     void setGame(Game game) {
         this.game = game;
     }
