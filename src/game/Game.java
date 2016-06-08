@@ -48,6 +48,12 @@ class Game {
             case "gameCreated":
                 gameCreatedHandler(messageObject);
                 break;
+            case "gameStarted":
+                gameStartedHandler(messageObject);
+                break;
+            case "markShot":
+                markShotHandler(messageObject);
+                break;
             case "disconnect":
                 disconnectHandler(messageObject);
                 break;
@@ -136,6 +142,12 @@ class Game {
         sendMessage("addShip", jsonObject);
     }
 
+    public void setPlayerReady() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("gameKey", this.gameKey);
+        sendMessage("setPlayerReady", jsonObject);
+    }
+
     private void preparationStartedHandler(Object messageObject) {
         JSONObject messageJSON = (JSONObject) messageObject;
         System.out.println(messageJSON.getString("playerKey"));
@@ -143,8 +155,38 @@ class Game {
         this.battleShip.setGameStatus("All players connected. Set your ships now!");
     }
 
-    private void addShip(int type, String playerKey, String gameKey, int x, int y) {
+    private void gameStartedHandler(Object messageObject) {
+        JSONObject jsonObject = (JSONObject) messageObject;
+        boolean onTurn = jsonObject.getBoolean("onTurn");
+        JSONArray enemyShipsJSON = jsonObject.getJSONArray("enemyShips");
 
+        for (int i = 0; i < enemyShipsJSON.length(); i++) {
+            JSONObject shipJSON = enemyShipsJSON.getJSONObject(i);
+            int type = shipJSON.getInt("type");
+            boolean vertical = shipJSON.getBoolean("vertical");
+            int x = shipJSON.getInt("x");
+            int y = shipJSON.getInt("y");
+            this.battleShip.setEnemyShip(type, vertical, x, y);
+        }
+
+        this.battleShip.setGameStarted(onTurn);
+        //TODO set on turn
+
+    }
+
+    private void markShotHandler(Object messageObject) {
+        JSONObject jsonObject = (JSONObject) messageObject;
+        boolean onTurn = jsonObject.getBoolean("onTurn");
+        int x = jsonObject.getInt("x");
+        int y = jsonObject.getInt("y");
+
+        this.battleShip.setOnTurn(onTurn);
+        this.battleShip.setEnemyMove(x, y);
+        //TODO set on turn
+
+    }
+
+    private void addShip(int type, String playerKey, String gameKey, int x, int y) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("gameKey", gameKey);
         jsonObject.put("playerKey", playerKey);
@@ -153,6 +195,15 @@ class Game {
         jsonObject.put("y", y);
 
         sendMessage("addShip", jsonObject);
+    }
+
+    public void playerShot(int x, int y) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("gameKey", gameKey);
+        jsonObject.put("x", x);
+        jsonObject.put("y", y);
+
+        sendMessage("playerShot", jsonObject);
     }
 
     private void leaveGame(String gameKey, String playerKey) {

@@ -28,7 +28,7 @@ import game.Board.Cell;
 public class BattleShip {
 
     private Game game;
-    private boolean running = false;
+    private boolean onTurn = false;
     private Board enemyBoard, playerBoard;
 
     private int shipsToPlace = 5;
@@ -54,8 +54,14 @@ public class BattleShip {
         buttonReady.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                gameStatus.setText("You are ready. Waiting for enemy...");
+
                 // TODO send message that player is ready
+                if (shipsToPlace == 0) {
+                    gameStatus.setText("You are ready. Waiting for enemy...");
+                    game.setPlayerReady();
+                } else {
+                    gameStatus.setText("Not all ships placed !!!");
+                }
             }
         });
 
@@ -67,25 +73,29 @@ public class BattleShip {
         root.setTop(hboxButtons);
 
         enemyBoard = new Board(true, event -> {
-            if (!running)
+            if (!onTurn)
                 return;
 
             Cell cell = (Cell) event.getSource();
-            if (cell.wasShot)
+            if (cell.wasShot) {
+                // cell was already shot, go again
                 return;
+            }
 
-            enemyTurn = !cell.shoot();
+            cell.shoot();
+            // TODO now goes enemy
+            onTurn = false;
+            game.playerShot(cell.x, cell.y);
 
             if (enemyBoard.ships == 0) {
                 System.out.println("YOU WIN");
-                System.exit(0);
             }
 
 
         });
 
         playerBoard = new Board(false, event -> {
-            if (running)
+            if (onTurn)
                 return;
 
             Cell cell = (Cell) event.getSource();
@@ -107,34 +117,23 @@ public class BattleShip {
         return root;
     }
 
-    private void enemyMove(int x, int y) {
+    public void setEnemyMove(int x, int y) {
 
         Cell cell = playerBoard.getCell(x, y);
-
 
         enemyTurn = cell.shoot();
 
         if (playerBoard.ships == 0) {
             System.out.println("YOU LOSE");
-            System.exit(0);
         }
 
     }
 
-    private void setEnemyShips() {
+    public void setEnemyShip(int type, boolean vertical, int x, int y) {
         // place enemy ships
-        int type = 5;
+        if (enemyBoard.placeShip(new Ship(type, vertical), x, y)) {
 
-        while (type > 0) {
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
-
-            if (enemyBoard.placeShip(new Ship(type, Math.random() < 0.5), x, y)) {
-                type--;
-            }
         }
-
-        running = true;
     }
 
     public void setGameStatus(String status) {
@@ -156,5 +155,16 @@ public class BattleShip {
 
     void setGame(Game game) {
         this.game = game;
+    }
+
+    void setGameStarted(boolean onTurn) {
+        setGameStatus("Game started. Your turn");
+        // 1. set enemy ships
+        // 2. set game status
+        this.onTurn = onTurn;
+    }
+
+    void setOnTurn(boolean onTurn) {
+        this.onTurn = onTurn;
     }
 }
