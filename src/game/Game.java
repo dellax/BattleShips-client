@@ -37,19 +37,18 @@ class Game {
         Object messageObject = jsonData.get("message");
         switch (messageType) {
             case "version":
-
                 getVersionHandler(messageObject);
                 break;
             case "allGames":
-
                 allGamesChangedHandler(messageObject);
                 break;
             case "preparationStarted":
-
                 preparationStartedHandler(messageObject);
                 break;
+            case "gameCreated":
+                gameCreatedHandler(messageObject);
+                break;
             case "disconnect":
-
                 disconnectHandler(messageObject);
                 break;
         }
@@ -100,18 +99,34 @@ class Game {
         updateGameList(gameList);
     }
 
-    void joinGame(String gameKey) {
+    private void gameCreatedHandler(Object messageObject) {
+        JSONObject messageJSON = (JSONObject) messageObject;
+        String gameKey = messageJSON.getString("gameKey");
+        Platform.runLater(() -> {
+            this.battleShip.setStageTitle("BattleShips gameID " + gameKey);
+        });
+    }
+
+    /**
+     * Function to join selected game with gameKey.
+     * @param gameKey Must be string
+     */
+    public void joinGame(String gameKey) {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("gameKey", gameKey);
 
         sendMessage("joinGame", jsonObject);
+        Platform.runLater(() -> {
+            this.battleShip.setStageTitle("BattleShips gameID " + gameKey);
+        });
     }
 
     private void preparationStartedHandler(Object messageObject) {
         JSONObject messageJSON = (JSONObject) messageObject;
         System.out.println(messageJSON.getString("playerKey"));
         this.playerKey = messageJSON.getString("playerKey");
+        this.battleShip.setGameStatus("All players connected. Set your ships now!");
     }
 
     private void addShip(int type, String playerKey, String gameKey, int x, int y) {
@@ -147,11 +162,20 @@ class Game {
         this.controller = controller;
     }
 
+    /**
+     * Function to update list of games
+     * @param gameList ObservableList
+     */
     public void updateGameList(ObservableList gameList) {
         // to prevent thread error
         Platform.runLater(() -> this.controller.updateGamesList(gameList));
     }
 
+    /**
+     * Function to create stage with game.
+     * @param stage current stage
+     * @throws Exception
+     */
     public void createStage(Stage stage) throws Exception {
         battleShip.start(stage);
     }

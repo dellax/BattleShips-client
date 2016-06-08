@@ -31,8 +31,6 @@ public class Controller implements Initializable {
     private Button createGameButton;
     @FXML
     private Button joinGameButton;
-    @FXML
-    private TextField textInput;
 
     @FXML
     private ListView listView;
@@ -48,7 +46,6 @@ public class Controller implements Initializable {
         assert versionButton != null : "fx:id=\"versionButton\" was not injected: check your FXML file 'sample.fxml'.";
         assert createGameButton != null : "fx:id=\"createGameButton\" was not injected: check your FXML file 'sample.fxml'.";
         assert joinGameButton != null : "fx:id=\"joinGameButton\" was not injected: check your FXML file 'sample.fxml'.";
-        assert textInput != null : "fx:id=\"textInput\" was not injected: check your FXML file 'sample.fxml'.";
         assert listView != null : "fx:id=\"listView\" was not injected: check your FXML file 'sample.fxml'.";
 
 

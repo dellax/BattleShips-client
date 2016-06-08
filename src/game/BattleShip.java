@@ -38,6 +38,8 @@ public class BattleShip {
 
     private Text gameStatus;
 
+    private Stage stage;
+
     private Parent createContent() {
         BorderPane root = new BorderPane();
         root.setPrefSize(800, 400);
@@ -136,11 +138,20 @@ public class BattleShip {
         running = true;
     }
 
+    public void setGameStatus(String status) {
+        this.gameStatus.setText(status);
+    }
+
     public void start(Stage primaryStage) throws Exception {
+        this.stage = primaryStage;
         Scene scene = new Scene(createContent());
-        primaryStage.setTitle("Battleship");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        this.stage.setTitle("Battleship");
+        this.stage.setScene(scene);
+        this.stage.setResizable(false);
+        this.stage.show();
+    }
+
+    void setStageTitle(String title) {
+        this.stage.setTitle(title);
     }
 }

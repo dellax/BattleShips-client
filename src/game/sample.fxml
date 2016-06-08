@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -14,7 +13,6 @@
         <Button fx:id="versionButton" mnemonicParsing="false" text="Version" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Button fx:id="createGameButton" mnemonicParsing="false" text="Create game" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Button fx:id="joinGameButton" mnemonicParsing="false" text="Join game" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <TextField fx:id="textInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <ListView fx:id="listView" onMouseClicked="#handleMouseClick" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game list" wrappingWidth="200.5087890625" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <font>
