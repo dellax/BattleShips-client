@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import game.Board.Cell;
+import javafx.stage.StageStyle;
 
 public class BattleShip {
 
@@ -57,6 +59,7 @@ public class BattleShip {
 
                 // TODO send message that player is ready
                 if (shipsToPlace == 0) {
+                    buttonReady.setDisable(true);
                     gameStatus.setText("You are ready. Waiting for enemy...");
                     game.setPlayerReady();
                 } else {
@@ -91,6 +94,8 @@ public class BattleShip {
 
             if (enemyBoard.ships == 0) {
                 System.out.println("YOU WIN");
+                setGameStatus("You WIN !!!");
+                this.onTurn = false;
             }
 
 
@@ -131,7 +136,8 @@ public class BattleShip {
         enemyTurn = cell.shoot();
 
         if (playerBoard.ships == 0) {
-            System.out.println("YOU LOSE");
+            setGameStatus("You LOSE !!!");
+            this.onTurn = false;
         }
 
     }

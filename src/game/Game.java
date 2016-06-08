@@ -180,10 +180,8 @@ class Game {
         int x = jsonObject.getInt("x");
         int y = jsonObject.getInt("y");
 
-        this.battleShip.setOnTurn(onTurn);
-        this.battleShip.setEnemyMove(x, y);
-        //TODO set on turn
-
+        Platform.runLater(() -> this.battleShip.setOnTurn(onTurn));
+        Platform.runLater(() -> this.battleShip.setEnemyMove(x, y));
     }
 
     private void addShip(int type, String playerKey, String gameKey, int x, int y) {
