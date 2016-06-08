@@ -83,8 +83,10 @@ public class BattleShip {
             }
 
             cell.shoot();
-            // TODO now goes enemy
+
+            // now goes enemy
             onTurn = false;
+            setGameStatus("Enemy turn");
             game.playerShot(cell.x, cell.y);
 
             if (enemyBoard.ships == 0) {
@@ -117,6 +119,11 @@ public class BattleShip {
         return root;
     }
 
+    /**
+     * Set enemy shot based on x, y coordinates
+     * @param x Integer
+     * @param y Integer
+     */
     public void setEnemyMove(int x, int y) {
 
         Cell cell = playerBoard.getCell(x, y);
@@ -129,6 +136,13 @@ public class BattleShip {
 
     }
 
+    /**
+     * Add enemy ship to enemyBoard
+     * @param type Integer
+     * @param vertical Boolean
+     * @param x Integer
+     * @param y Integer
+     */
     public void setEnemyShip(int type, boolean vertical, int x, int y) {
         // place enemy ships
         if (enemyBoard.placeShip(new Ship(type, vertical), x, y)) {
@@ -136,10 +150,19 @@ public class BattleShip {
         }
     }
 
+    /**
+     * Set status of the game, displayed in blue box
+     * @param status String
+     */
     public void setGameStatus(String status) {
         this.gameStatus.setText(status);
     }
 
+    /**
+     * Show primary stage
+     * @param primaryStage Stage
+     * @throws Exception
+     */
     public void start(Stage primaryStage) throws Exception {
         this.stage = primaryStage;
         Scene scene = new Scene(createContent());
@@ -149,22 +172,46 @@ public class BattleShip {
         this.stage.show();
     }
 
-    void setStageTitle(String title) {
+    /**
+     * Set title of the window
+     * @param title String
+     */
+    public void setStageTitle(String title) {
         this.stage.setTitle(title);
     }
 
-    void setGame(Game game) {
+    /**
+     * Set game object
+     * @param game Game object
+     */
+    public void setGame(Game game) {
         this.game = game;
     }
 
-    void setGameStarted(boolean onTurn) {
+    /**
+     * Set game status and onTurn
+     * @param onTurn Boolean
+     */
+    public void setGameStarted(boolean onTurn) {
         setGameStatus("Game started. Your turn");
-        // 1. set enemy ships
-        // 2. set game status
+        if (onTurn) {
+            setGameStatus("Game started. Your turn");
+        } else {
+            setGameStatus("Game started. Enemy turn");
+        }
         this.onTurn = onTurn;
     }
 
+    /**
+     * Set onTurn and inform user in game status
+     * @param onTurn Boolean
+     */
     void setOnTurn(boolean onTurn) {
+        if (onTurn) {
+            setGameStatus("Your turn");
+        } else {
+            setGameStatus("Enemy turn");
+        }
         this.onTurn = onTurn;
     }
 }
