@@ -107,7 +107,7 @@ public class BattleShip {
             if (playerBoard.placeShip(new Ship(shipsToPlace, event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
                 // add ship to server
                 game.addShip(shipsToPlace, event.getButton() == MouseButton.PRIMARY, cell.x, cell.y);
-            }
+            } else return;
             shipsToPlace--;
         });
 
